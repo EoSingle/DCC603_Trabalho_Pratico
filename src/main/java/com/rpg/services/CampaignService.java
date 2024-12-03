@@ -4,9 +4,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import com.rpg.models.Campaign;
+import com.rpg.models.Player;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
+import java.util.ArrayList;
 //import java.io.Reader;
 import java.io.File;
 import java.io.FileReader;
@@ -54,12 +57,70 @@ public class CampaignService {
 
         try (FileReader reader = new FileReader(file)) {
             Campaign campaign = gson.fromJson(reader, Campaign.class);
-            System.out.println("Campanha '" + name + "' carregada com sucesso.");
+            //System.out.println("Campanha '" + name + "' carregada com sucesso.");
             return campaign;
         } catch (IOException e) {
             System.err.println("Erro ao carregar a campanha: " + e.getMessage());
             return null;
         }
     }
-    
+
+    // Retorna uma lista de campanhas que o usuário é mestre O(n)
+    public List<Campaign> listCampaignsMaster(String user) {
+        List<Campaign> userCampaigns = new ArrayList<>();
+        File folder = new File(CAMPAIGN_FOLDER);
+        File[] files = folder.listFiles();
+        if (files == null) {
+            return userCampaigns;
+        }
+        for (File file : files) {
+            String fileName = file.getName();
+            if (fileName.endsWith(".json")) {
+                String campaignName = fileName.substring(0, fileName.length() - 5);
+                Campaign campaign = loadCampaign(campaignName);
+                if (campaign != null && campaign.getMaster().equals(user)) {
+                    userCampaigns.add(campaign);
+                }
+            }
+        }
+        return userCampaigns;
+    }
+
+    // Retorna uma lista de campanhas que o usuário é jogador O(n*m)
+    public List<Campaign> listCampaignsPlayer(String user) {
+        List<Campaign> userCampaigns = new ArrayList<>();
+        File folder = new File(CAMPAIGN_FOLDER);
+        File[] files = folder.listFiles();
+        if (files == null) {
+            return userCampaigns;
+        }
+        for (File file : files) {
+            String fileName = file.getName();
+            if (fileName.endsWith(".json")) {
+                String campaignName = fileName.substring(0, fileName.length() - 5);
+                Campaign campaign = loadCampaign(campaignName);
+                if (campaign != null) {
+                    List<Player> players = campaign.getPlayers();
+                    for (Player player : players) {
+                        if (player.getName().equals(user)) {
+                            userCampaigns.add(campaign);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return userCampaigns;
+    }
+
+    // Adiciona um jogador a uma campanha
+    public void addPlayerToCampaign(String campaignName, Player player) {
+        Campaign campaign = loadCampaign(campaignName);
+        if (campaign == null) {
+            System.err.println("Erro: Campanha '" + campaignName + "' não encontrada.");
+            return;
+        }
+        campaign.addPlayer(player);
+        saveCampaign(campaign);
+    }
 }

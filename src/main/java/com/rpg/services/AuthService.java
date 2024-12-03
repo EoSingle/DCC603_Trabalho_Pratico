@@ -12,6 +12,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import com.rpg.services.TerminalService;
+
 public class AuthService {
     private final String filePath;
     private Map<String, String> users = new HashMap<>();
@@ -78,6 +80,7 @@ public class AuthService {
         users.put(username, hashedPassword);
         saveUsers();
         System.out.println("Usuário registrado com sucesso!");
+        TerminalService.clearScreen(1000);
     }
 
     // Login de usuário existente
@@ -91,14 +94,15 @@ public class AuthService {
 
         if (users.containsKey(username) && users.get(username).equals(hashedPassword)) {
             System.out.println("Login bem-sucedido! Bem-vindo, " + username + "!");
+            TerminalService.clearScreen(1000);
             return username;
         } else {
             System.out.println("Nome de usuário ou senha incorretos.");
+            TerminalService.clearScreen(1000);
             return null;
         }
     }
 
-    // Gerar hash da senha usando SHA-256
     private String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");

@@ -1,0 +1,14 @@
+{
+  "name": "Novigrad",
+  "master": "Single",
+  "players": [
+    {
+      "name": "Romana",
+      "characterSheet": {
+        "characterName": "Yennefer",
+        "characterClass": "Mago",
+        "level": 3
+      }
+    }
+  ]
+}
