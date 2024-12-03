@@ -96,7 +96,7 @@ Certifique-se de ter o **Java** e o **Maven** instalados em sua máquina:
 1. Clone o repositório para sua máquina local:
 
    ```bash
-   git clone <INSERIR_URL_DO_REPOSITORIO>
+   git clone https://github.com/EoSingle/DCC603_Trabalho_Pratico.git
    cd DCC603_Trabalho_Pratico
    ```
 

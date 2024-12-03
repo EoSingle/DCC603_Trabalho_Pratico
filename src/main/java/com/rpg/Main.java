@@ -2,6 +2,7 @@ package com.rpg;
 
 import com.rpg.services.CampaignService;
 import com.rpg.services.DiceRoller;
+import com.rpg.services.AuthService;
 
 import java.util.Scanner;
 
@@ -11,6 +12,7 @@ import com.rpg.models.CharacterSheet;
 
 public class Main {
     private static final Scanner scanner = new Scanner(System.in);
+    private static final AuthService authService = new AuthService("src/main/resources/users/users.json");
     private static final CampaignService campaignService = new CampaignService();
 
     public static void main(String[] args) {
@@ -18,13 +20,42 @@ public class Main {
 
         while (true) {
             System.out.println("\n=== Sistema de RPG Online ===");
-            System.out.println("1. Criar nova campanha");
-            System.out.println("2. Adicionar jogador à campanha");
-            System.out.println("3. Rolar dados");
-            System.out.println("4. Exibir detalhes da campanha");
-            System.out.println("5. Sair");
+            System.out.println("1. Login");
+            System.out.println("2. Registrar");
+            System.out.println("3. Sair");
             System.out.print("Escolha uma opção: ");
 
+            int option = scanner.nextInt();
+            scanner.nextLine(); // Consumir a nova linha
+
+            switch (option) {
+                case 1 -> {
+                    String username = authService.login(scanner);
+                    if (username != null) {
+                        controlFlow(scanner, username);
+                    }
+                }
+                case 2 -> authService.register(scanner);
+                case 3 -> {
+                    System.out.println("Saindo do sistema...");
+                    System.exit(0);
+                }
+                default -> System.out.println("Opção inválida. Tente novamente.");
+            }
+        }
+    }
+
+    public static void controlFlow(Scanner scanner, String username) {
+        Campaign campaign = null;
+
+        while(true) {
+            System.out.println("\n=== Menu Principal ===");
+            System.out.println("Bem-vindo, " + username + "!");
+            System.out.println("1. Criar nova campanha");
+            System.out.println("2. Ver Campanhas");
+            System.out.println("3. Sair");
+
+            System.out.print("Escolha uma opção: ");
             int option = scanner.nextInt();
             scanner.nextLine(); // Consumir a nova linha
 
@@ -33,25 +64,16 @@ public class Main {
                     campaign = createCampaign();
                     break;
                 case 2:
-                    if (campaign != null) {
-                        addPlayerToCampaign(campaign);
+                    if (campaign == null) {
+                        System.out.println("Nenhuma campanha criada. Crie uma nova campanha.");
                     } else {
-                        System.out.println("Nenhuma campanha criada ainda!");
+                        // TODO: Listar todas as campanhas do usuário e permitir escolher uma
+                        displayCampaignDetails(campaign);
                     }
                     break;
                 case 3:
-                    rollDice();
-                    break;
-                case 4:
-                    if (campaign != null) {
-                        displayCampaignDetails(campaign);
-                    } else {
-                        System.out.println("Nenhuma campanha criada ainda!");
-                    }
-                    break;
-                case 5:
-                    System.out.println("Saindo...");
-                    return;
+                    System.out.println("Saindo do sistema...");
+                    System.exit(0);
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }

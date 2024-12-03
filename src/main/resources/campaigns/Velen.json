@@ -1,14 +1,4 @@
 {
   "name": "Velen",
-  "players": [
-    {
-      "name": "Geraldo",
-      "characterSheet": {
-        "characterName": "Geralt",
-        "characterClass": "Bruxo",
-        "level": 5
-      },
-      "type": "player"
-    }
-  ]
+  "players": []
 }
