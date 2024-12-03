@@ -1,0 +1,7 @@
+com/rpg/models/Campaign.class
+com/rpg/Main.class
+com/rpg/models/Player.class
+com/rpg/utils/FIleUtils.class
+com/rpg/models/CharacterSheet.class
+com/rpg/services/CampaignService.class
+com/rpg/services/DiceRoller.class
