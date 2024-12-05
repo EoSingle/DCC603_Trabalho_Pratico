@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.rpg.models.Campaign;
 import com.rpg.models.Player;
-import com.rpg.models.Message;
 
 public class GameService {
     private static final CampaignService campaignService = new CampaignService();

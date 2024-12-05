@@ -9,7 +9,6 @@ public class Campaign {
     private String name;
     private String master;
     private List<Player> players;
-    private List<Message> messages;
 
     public Campaign(String name, String master) {
         this.name = name;
@@ -17,7 +16,6 @@ public class Campaign {
         this.players = new ArrayList<>();
         ChatService chatService = new ChatService();
         chatService.createFile(name);
-        this.messages = new ArrayList<>();
     }
 
     public String getName() {
