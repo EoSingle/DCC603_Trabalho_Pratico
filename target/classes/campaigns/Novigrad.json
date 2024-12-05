@@ -7,7 +7,14 @@
       "characterSheet": {
         "characterName": "Yennefer",
         "characterClass": "Mago",
-        "level": 3
+        "characterRace": "Elfo",
+        "strength": 8,
+        "dexterity": 8,
+        "constitution": 13,
+        "intelligence": 18,
+        "wisdom": 13,
+        "charisma": 10,
+        "level": 1
       }
     }
   ]

@@ -12,8 +12,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import com.rpg.services.TerminalService;
-
 public class AuthService {
     private final String filePath;
     private Map<String, String> users = new HashMap<>();

@@ -5,8 +5,6 @@ import java.util.List;
 
 import com.rpg.models.Campaign;
 import com.rpg.models.Player;
-import com.rpg.services.CampaignService;
-import com.rpg.services.TerminalService;
 
 public class GameService {
     private static final CampaignService campaignService = new CampaignService();
@@ -74,38 +72,38 @@ public class GameService {
             System.out.println("1. Ver Personagem");
             System.out.println("2. Ver Mapa");
             System.out.println("3. Chat");
-            System.out.println("4. Sair");
+            System.out.println("4. Voltar ao menu principal");
 
             System.out.print("Escolha uma opção: ");
             int option = scanner.nextInt();
             scanner.nextLine();
 
-            // TODO: Implementar todas as opções do jogador
             switch (option) {
                 case 1:
                     TerminalService.clearScreen();
                     System.out.println("=== Personagem ===");
                     if (player.getCharacterSheet() != null) {
-                        System.out.println("Nome: " + player.getCharacterSheet().getCharacterName());
-                        System.out.println("Classe: " + player.getCharacterSheet().getCharacterClass());
-                        System.out.println("Nível: " + player.getCharacterSheet().getLevel());
+                        player.getCharacterSheet().showCaracterSheet();
                         System.out.println("=== Opções ===");
                         System.out.println("1. Editar personagem");
-                        System.out.println("2. Voltar");
+                        System.out.println("2. Deletar personagem");
+                        System.out.print("3. Voltar\n");
 
                         System.out.print("Escolha uma opção: ");
                         int characterOption = scanner.nextInt();
                         scanner.nextLine();
 
-                        // TODO: Implementar a edição do personagem
                         switch (characterOption) {
                             case 1:
-                                player.createCharacterSheet(scanner);
-                                campaignService.saveCampaign(campaign);
-                                System.out.println("Personagem editado com sucesso!");
-                                TerminalService.clearScreen(1000);
+                                player.editCharacterSheet(scanner);
                                 break;
                             case 2:
+                                player.deleteCharacterSheet();
+                                campaignService.saveCampaign(campaign);
+                                System.out.println("Personagem deletado com sucesso!");
+                                TerminalService.clearScreen(1000);
+                                break;
+                            case 3:
                                 break;
                             default:
                                 System.out.println("Opção inválida. Tente novamente.");
@@ -119,19 +117,20 @@ public class GameService {
                             player.createCharacterSheet(scanner);
                             campaignService.saveCampaign(campaign);
                             System.out.println("Personagem criado com sucesso!");
-                            TerminalService.clearScreen(1000);
+                            TerminalService.clearScreen(2000);
                         }
                     }
                     break;
                 case 2:
                     System.out.println("=== Mapa ===");
+                    System.out.println("Em desenvolvimento...");
                     break;
                 case 3:
                     System.out.println("=== Chat ===");
                     break;
                 case 4:
-                    System.out.println("Saindo do sistema...");
-                    System.exit(0);
+                    System.out.println("Voltando ao menu principal...");
+                    return;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
@@ -144,16 +143,15 @@ public class GameService {
             System.out.println("=== Menu do Mestre ===");
             System.out.println("1. Ver Jogadores");
             System.out.println("2. Ver Personagens");
-            System.out.println("3. Gerenciar Mapa");
+            System.out.println("3. Mapa");
             System.out.println("4. Logs");
             System.out.println("5. Chat");
-            System.out.println("6. Sair");
+            System.out.println("6. Voltar ao menu principal");
 
             System.out.print("Escolha uma opção: ");
             int option = scanner.nextInt();
             scanner.nextLine();
 
-            // TODO: Implementar todas as opções do mestre
             switch (option) {
                 case 1:
                     TerminalService.clearScreen();
@@ -175,7 +173,7 @@ public class GameService {
                     scanner.nextLine();
 
                     switch (playerOption) {
-                        case 1:
+                        case 1: // Pode virar função addPlayer()
                             TerminalService.clearScreen();
                             System.out.println("=== Adicionar Jogador ===");
                             System.out.print("Digite o nome do jogador ou 'cancelar': ");
@@ -189,7 +187,7 @@ public class GameService {
                             System.out.println("Jogador adicionado com sucesso!");
                             TerminalService.clearScreen(1000);
                             break;
-                        case 2:
+                        case 2: // Pode virar função removePlayer()
                             System.out.print("Digite o nome do jogador a ser removido: ");
                             String playerNameToRemove = scanner.nextLine();
                             Player playerToRemove = null;
@@ -214,22 +212,100 @@ public class GameService {
                         default:
                             System.out.println("Opção inválida. Tente novamente.");
                             TerminalService.clearScreen(1000);
+                            break;
                     }
+                    break;
                 case 2:
                     System.out.println("=== Personagens ===");
+                    if (campaign.getPlayers().size() != 0) {
+                        for (int i = 0; i < campaign.getPlayers().size(); i++) {
+                            if(campaign.getPlayers().get(i).getCharacterSheet() == null) {
+                                System.out.println("Personagem não criado para " + campaign.getPlayers().get(i).getName());
+                                System.out.println("--------------------");
+                                continue;
+                            }
+                            System.out.println("Jogador: " + campaign.getPlayers().get(i).getName());
+                            System.out.println("Nome do Personagem: " + campaign.getPlayers().get(i).getCharacterSheet().getCharacterName());
+                            System.out.println("Raça: " + campaign.getPlayers().get(i).getCharacterSheet().getCharacterRace());
+                            System.out.println("Classe: " + campaign.getPlayers().get(i).getCharacterSheet().getCharacterClass());
+                            System.out.println("Nível: " + campaign.getPlayers().get(i).getCharacterSheet().getLevel());
+                            System.out.println("--------------------");
+                        }
+                    } else {
+                        System.out.println("Nenhum jogador na campanha.");
+                        break;
+                    }
+                    System.out.println("=== Opções ===");
+                    System.out.println("1. Editar personagem");
+                    System.out.println("2. Deletar personagem");
+                    System.out.println("3. Voltar");
+
+                    System.out.print("Escolha uma opção: ");
+                    int characterOption = scanner.nextInt();
+                    scanner.nextLine();
+
+                    switch (characterOption) {
+                        case 1:
+                            System.out.print("Digite o nome do jogador para editar o personagem: ");
+                            String playerName = scanner.nextLine();
+                            Player player = null;
+                            for (Player p : campaign.getPlayers()) {
+                                if (p.getName().equals(playerName)) {
+                                    player = p;
+                                    break;
+                                }
+                            }
+                            if (player != null) {
+                                player.editCharacterSheet(scanner);
+                                campaignService.saveCampaign(campaign);
+                                System.out.println("Personagem editado com sucesso!");
+                                TerminalService.clearScreen(2000);
+                            } else {
+                                System.out.println("Jogador não encontrado.");
+                                TerminalService.clearScreen(1000);
+                            }
+                            break;
+                        case 2:
+                            System.out.print("Digite o nome do jogador para deletar o personagem: ");
+                            String playerToDelete = scanner.nextLine();
+                            Player playerAux = null;
+                            for (Player p : campaign.getPlayers()) {
+                                if (p.getName().equals(playerToDelete)) {
+                                    playerAux = p;
+                                    break;
+                                }
+                            }
+                            if (playerAux != null) {
+                                playerAux.deleteCharacterSheet();
+                                campaignService.saveCampaign(campaign);
+                                System.out.println("Personagem deletado com sucesso!");
+                                TerminalService.clearScreen(1000);
+                            } else {
+                                System.out.println("Jogador não encontrado.");
+                                TerminalService.clearScreen(1000);
+                            }
+                            break;
+                        case 3:
+                            break;
+                        default:
+                            System.out.println("Opção inválida. Tente novamente.");
+                            TerminalService.clearScreen(1000);
+                    }
                     break;
                 case 3:
                     System.out.println("=== Mapa ===");
+                    System.out.println("Em desenvolvimento...");
                     break;
                 case 4:
                     System.out.println("=== Logs ===");
+                    System.out.println("Em desenvolvimento...");
                     break;
                 case 5:
                     System.out.println("=== Chat ===");
                     break;
                 case 6:
-                    System.out.println("Saindo do sistema...");
-                    System.exit(0);
+                    System.out.println("Voltando ao menu principal...");
+                    return;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
