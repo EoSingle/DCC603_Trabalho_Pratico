@@ -5,9 +5,11 @@ import java.util.List;
 
 import com.rpg.models.Campaign;
 import com.rpg.models.Player;
+import com.rpg.models.Message;
 
 public class GameService {
     private static final CampaignService campaignService = new CampaignService();
+    private static final ChatService chatService = new ChatService();
 
     public static void createCampaign(String master, Scanner scanner) {
         System.out.print("Digite o nome da campanha: ");
@@ -65,6 +67,8 @@ public class GameService {
             System.out.println("Erro: Jogador não encontrado na campanha.");
             return;
         }
+
+        chatService.loadChat(campaign.getName());
 
         while(true) {
             TerminalService.clearScreen();
@@ -126,7 +130,7 @@ public class GameService {
                     System.out.println("Em desenvolvimento...");
                     break;
                 case 3:
-                    System.out.println("=== Chat ===");
+                    useChat(scanner, campaign, username);
                     break;
                 case 4:
                     System.out.println("Voltando ao menu principal...");
@@ -139,6 +143,7 @@ public class GameService {
 
     public static void playAsMaster(Campaign campaign, Scanner scanner){
         while(true) {
+            chatService.loadChat(campaign.getName());
             TerminalService.clearScreen();
             System.out.println("=== Menu do Mestre ===");
             System.out.println("1. Ver Jogadores");
@@ -216,6 +221,7 @@ public class GameService {
                     }
                     break;
                 case 2:
+                    TerminalService.clearScreen();
                     System.out.println("=== Personagens ===");
                     if (campaign.getPlayers().size() != 0) {
                         for (int i = 0; i < campaign.getPlayers().size(); i++) {
@@ -233,6 +239,7 @@ public class GameService {
                         }
                     } else {
                         System.out.println("Nenhum jogador na campanha.");
+                        TerminalService.clearScreen(1000);
                         break;
                     }
                     System.out.println("=== Opções ===");
@@ -301,13 +308,39 @@ public class GameService {
                     System.out.println("Em desenvolvimento...");
                     break;
                 case 5:
-                    System.out.println("=== Chat ===");
+                    useChat(scanner, campaign, campaign.getMaster());
                     break;
                 case 6:
                     System.out.println("Voltando ao menu principal...");
                     return;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
+            }
+        }
+    }
+
+    public static void useChat(Scanner scanner, Campaign campaign, String username) {
+        while(true) {
+            TerminalService.clearScreen();
+            System.out.println("=== Chat ===");
+            chatService.showChat();
+            System.out.println("1. Enviar mensagem");
+            System.out.println("2. Voltar");
+            System.out.print("Escolha uma opção: ");
+            int chatOption = scanner.nextInt();
+            scanner.nextLine();
+            switch (chatOption) {
+                case 1:
+                    System.out.print("Digite a mensagem: ");
+                    String message = scanner.nextLine();
+                    chatService.addMessage(username, message);
+                    TerminalService.clearScreen();
+                    break;
+                case 2:
+                    return;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+                    TerminalService.clearScreen(1000);
             }
         }
     }

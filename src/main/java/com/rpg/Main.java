@@ -19,6 +19,7 @@ public class Main {
 
     public static String startAuthentication(){
         while (true) {
+            TerminalService.clearScreen();
             System.out.println("\n=== Sistema de RPG Online ===");
             System.out.println("1. Login");
             System.out.println("2. Registrar");

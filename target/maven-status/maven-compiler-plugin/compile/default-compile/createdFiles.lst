@@ -1,7 +1,13 @@
-com/rpg/models/Campaign.class
+com/rpg/models/Message.class
 com/rpg/Main.class
+com/rpg/services/ChatService$1.class
+com/rpg/models/Campaign.class
 com/rpg/models/Player.class
 com/rpg/utils/FIleUtils.class
+com/rpg/services/AuthService.class
+com/rpg/services/TerminalService.class
 com/rpg/models/CharacterSheet.class
+com/rpg/services/GameService.class
 com/rpg/services/CampaignService.class
 com/rpg/services/DiceRoller.class
+com/rpg/services/ChatService.class

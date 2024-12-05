@@ -3,19 +3,20 @@
   "master": "Single",
   "players": [
     {
-      "name": "Romana",
+      "name": "cyberkill",
       "characterSheet": {
-        "characterName": "Yennefer",
-        "characterClass": "Mago",
-        "characterRace": "Elfo",
-        "strength": 8,
-        "dexterity": 8,
-        "constitution": 13,
-        "intelligence": 18,
-        "wisdom": 13,
-        "charisma": 10,
+        "characterName": "Guts",
+        "characterClass": "Guerreiro",
+        "characterRace": "Humano",
+        "strength": 18,
+        "dexterity": 13,
+        "constitution": 15,
+        "intelligence": 8,
+        "wisdom": 8,
+        "charisma": 8,
         "level": 1
       }
     }
-  ]
+  ],
+  "messages": []
 }
