@@ -117,13 +117,3 @@ Para rodar os testes automatizados, utilize o comando:
 mvn test
 ```
 
-## Como Utilizar o Sistema
-
-1. Ao iniciar o sistema, você será guiado para criar uma nova campanha.
-2. Adicione jogadores à campanha e crie fichas de personagens personalizadas.
-3. Utilize a funcionalidade de rolagem de dados conforme necessário durante o jogo.
-4. As informações das campanhas serão salvas automaticamente em arquivos JSON na pasta `src/main/resources/`.
-
-## Licença
-
-Este projeto está licenciado sob a licença [INSERIR_TIPO_DE_LICENÇA]. Consulte o arquivo `LICENSE` para mais detalhes.
