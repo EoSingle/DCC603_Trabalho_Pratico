@@ -49,7 +49,7 @@ DCC603_Trabalho_Pratico/
 │   │   ├── java/
 │   │   │    └── com/
 │   │   │        └── rpg/
-│   │   │            ├── models/      # Classes de modelo e lógica de negócios
+│   │   │            ├── models/      # Classes de modelos e objetos básicos
 │   │   │            ├── services/    # Classes de controle e serviços
 │   │   │            ├── utils/       # Classes auxiliares
 │   │   │            └── Main.java    # Ponto de entrada da aplicação
@@ -65,7 +65,6 @@ DCC603_Trabalho_Pratico/
 │                   ├── models/       # Testes das classes de modelo
 │                   ├── services/     # Testes das classes de serviço
 │                   └── utils/        # Testes das classes auxiliares
-├── LICENSE                           # Licença do projeto
 ├── pom.xml                           # Arquivo de configuração do Maven
 ├── run.sh                            # Script para execução do projeto
 └── README.md                         # Documentação do projeto
